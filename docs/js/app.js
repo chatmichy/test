@@ -1,80 +1,40 @@
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 10000 );
-var renderer = new THREE.WebGLRenderer();
-var controls = new THREE.VRControls(camera);
-var effect = new THREE.VREffect(renderer);
-var manager = new WebVRManager(renderer, effect);
+class App {
+	constructor(scene) {
+		this.scene = scene;
+	}
 
-var sceneCube  = new THREE.Scene();
-var sceneSphere = new THREE.Scene();
+	init() {
+		var light = new THREE.DirectionalLight(0xFFFFFF);
+		light.position.set(2, 2, 0);
+		scene.add( light );
 
-var meshCube = new THREE.Mesh();
+		var ambientLight = new THREE.AmbientLight(0x888888);
+		scene.add( ambientLight );
 
-function init() {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+		this.meshCube = new THREE.Mesh();
+		var geometryCube = new THREE.BoxGeometry(10, 10, 10);
+		var materialCube = new THREE.MeshLambertMaterial( { color: 0x00ff88 } );
+		this.meshCube = new THREE.Mesh( geometryCube, materialCube );
+		this.meshCube.position.set(0, 0, 50);
+		this.scene.add( this.meshCube );
 
-    controls.standing = true;
+		var meshSphere = new THREE.Mesh();
+		var loaderSphere = new THREE.TextureLoader();
+		var textureSphere = loaderSphere.load( './img/photo.jpg');
+		var materialSphere = new THREE.MeshBasicMaterial({ map:textureSphere, side:THREE.BackSide });
+		var geometrySphere = new THREE.SphereGeometry(1000,32,32);
+		meshSphere = new THREE.Mesh( geometrySphere, materialSphere );
+		meshSphere.position.set(0, 0, 0);
 
-    effect.setSize(window.innerWidth, window.innerHeight);
+		this.scene.add( meshSphere );
+	}
 
-    var light = new THREE.DirectionalLight(0xFFFFFF);
-    light.position.set(1.0, 1.0, 1.0);
-    scene.add( light );
+	update(dt) {
+		this.meshCube.rotation.x += dt * 0.8
+		this.meshCube.rotation.z += dt * 0.2
+	}
 
-    var ambientLight = new THREE.AmbientLight(0x888888);
-    scene.add( ambientLight );
+	render(dt) {
 
-    var geometryCube = new THREE.BoxGeometry(0.08, 0.08, 0.08);
-    var loaderCube = new THREE.TextureLoader();
-
-    switch(1) {
-    case 1:
-       var materialCube = new THREE.MeshLambertMaterial( { color: 0x00ff88 } );
-       break;
-    case 2:
-       var materialCube = new THREE.MeshLambertMaterial( { color: 0x00ff88, wireframe:true } );
-       break;
-    default:
-       var materials = [
-          new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("./img/dice1.png")}),
-          new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("./img/dice2.png")}),
-          new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("./img/dice3.png")}),
-          new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("./img/dice4.png")}),
-          new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("./img/dice5.png")}),
-          new THREE.MeshLambertMaterial({map:THREE.ImageUtils.loadTexture("./img/dice6.png")}),
-       ];
-       var materialCube = new THREE.MeshFaceMaterial(materials);
-       break;
-    }
-
-    meshCube = new THREE.Mesh( geometryCube, materialCube );
-    meshCube.position.set(0, 0, -0.32);
-    sceneCube.add( meshCube );
-
-    var meshSphere = new THREE.Mesh();
-    var materialSphere = new THREE.MeshLambertMaterial( { color: 0x0088ff, wireframe:true } );
-    var geometrySphere = new THREE.SphereGeometry(0.6,32,32);
-    meshSphere = new THREE.Mesh( geometrySphere, materialSphere );
-    meshSphere.position.set(0, 0, 0);
-    sceneSphere.add( meshSphere );
-
-    scene.add( sceneSphere );
-    scene.add( sceneCube );
+	}
 }
-
-var lastRender = 0;
-function render(timestamp) {
-    var delta = Math.min(timestamp - lastRender, 500);
-    lastRender = timestamp;
-
-    meshCube.rotation.x += delta * 0.0005
-    meshCube.rotation.z += delta * 0.001
-
-    requestAnimationFrame(render);
-    controls.update();
-    manager.render(scene, camera, timestamp);
-}
-
-init();
-render(performance ? performance.now() : Date.now());
