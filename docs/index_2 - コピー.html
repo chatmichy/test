@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>スキルアップ2018 WebVR</title>
+	<script src="https://aframe.io/releases/0.5.0/aframe.js"></script>
+	<style>
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		html,body{
+			width: 100%;
+			height: 100%;
+			background: #fff;
+		}
+	</style>
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<img src="./images/image.jpg" id="sky">
+		</a-assets>
+		<a-camera>
+			<a-cursor></a-cursor>
+		</a-camera>
+		<a-sky src="#sky"></a-sky>
+	</a-scene>
+</body>
+</html> 
