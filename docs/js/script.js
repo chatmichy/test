@@ -1,15 +1,15 @@
-var boxEl = document.querySelector('a-box');
+var box1El = document.querySelector('#box1');
 var box2El = document.querySelector('#box2');
 
   // カーソルがぶつかったら拡大
-  boxEl.addEventListener('mouseenter', function () {
-    boxEl.setAttribute('scale', {x: 5, y: 5, z: 5});
+  box1El.addEventListener('mouseenter', function () {
+    box1El.setAttribute('scale', {x: 5, y: 5, z: 5});
     console.log("mouseenter");
   });
 
   // カーソルが離れたら元にもどす
-  boxEl.addEventListener('mouseleave', function () {
-    boxEl.setAttribute('scale', {x: 2, y: 2, z: 2});
+  box1El.addEventListener('mouseleave', function () {
+    box1El.setAttribute('scale', {x: 2, y: 2, z: 2});
     console.log("mouseleave");
   });
 
