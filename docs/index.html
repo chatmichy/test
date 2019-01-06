@@ -20,6 +20,41 @@
   <a-scene>
     <a-camera>
 
+		<a-cursor color="black" scale="2 2">
+			<a-animation 
+						 begin="mouseenter" 
+						 easing="ease-out" 
+						 attribute="scale" 
+						 fill="forwards" 
+						 from="2 2 2" 
+						 to="1 1 1" 
+						 dur="300">
+			</a-animation>
+			<a-animation 
+						 begin="mouseenter"
+						 attribute="color" 
+						 fill="forwards" 
+						 from="black" 
+						 to="red" 
+						 dur="0">
+			</a-animation>
+			<a-animation 
+						 begin="mouseleave" 
+						 easing="ease-in" 
+						 attribute="scale" 
+						 fill="forwards" 
+						 from="1 1 1" 
+						 to="2 2 2" 
+						 dur="300">
+			</a-animation>
+			<a-animation 
+						 begin="mouseleave" 
+						 attribute="color" 
+						 fill="forwards" 
+						 from="red" 
+						 to="black" 
+						 dur="0">
+			</a-animation>
 		</a-cursor>
     </a-camera>
     
